@@ -3,27 +3,8 @@
 # 清洗 + 演练台都在本插件内（lib/redteam、presets/redteam、skills/redteam）。
 # 只装 dsh-purge，不外接、不 link 其它红队包。
 
-# 关掉旧的独立红队包行（若用户以前装过 dsh-redteam-mode）
-- id: redteam-store
-  name: dsh-redteam-store
-  disabled: true
-
-- id: redteam-ui
-  name: dsh-redteam-ui
-  disabled: true
-
-- id: redteam-mode
-  name: dsh-redteam-mode
-  disabled: true
-
-- id: redteam-mode-store
-  name: dsh-redteam-mode/store
-  disabled: true
-
-- id: redteam-mode-ui
-  name: dsh-redteam-mode/ui
-  disabled: true
-
+# 旧独立红队包的禁用条目已移除：本机未安装 dsh-redteam-mode，它们只会产生
+# "patch target not found"。若日后重装旧包，把对应的 `- id: <旧 id>` 加回来。
 - id: system-prompt
   config:
     includeHarnessIdentity: false
@@ -32,29 +13,6 @@
 
 # 本体 insert 写在用户层 profile/cordis.patch.yml（postinstall / 演练台自愈补）。
 # 这里只改已入队条目的 inject/config。再 insert 一次会 already queued（#152 / #154 / #159）。
-- id: dsh-purge
-  name: dsh-purge
-  inject: [systemPrompt, tools]
-  config:
-    enabled: true
-    autoApplyOnStart: false
-    autoUpdateOnStart: false
-    autoRevertOnMissing: false
-    injectOnce: false
-    stripMnemon: true
-    verbose: false
-    postPrompt: ""
-    postPromptOrder: 5100
-    autoRetry: true
-    retryMax: 3
-    autoContinue: false
-    continueMax: 3
-    continueText: "继续"
-    capabilityProtocol: true
-    hooksDenyBypass: true
-    anchorMode: auto
-    subagentControl: true
-
 - insert:
     # 演练台：预设 + 技能落地（本插件 lib/redteam）
     - id: dsh-purge-redteam
